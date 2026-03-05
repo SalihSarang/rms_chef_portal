@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rms_design_system/app_colors/semantic_colors.dart';
 import 'package:rms_design_system/app_colors/neutral_colors.dart';
 import 'package:rms_design_system/app_colors/primary_colors.dart';
 import 'package:chef_portal/features/home/presentation/bloc/shift_bloc.dart';
@@ -49,7 +50,9 @@ class ShiftToggleButton extends StatelessWidget {
             ),
             label: Text(isActive ? 'End Shift' : 'Start Shift'),
             style: ElevatedButton.styleFrom(
-              backgroundColor: isActive ? Colors.red : PrimaryColors.brandGreen,
+              backgroundColor: isActive
+                  ? SemanticColors.error
+                  : PrimaryColors.brandGreen,
               foregroundColor: NeutralColors.authFieldBackground,
               elevation: 0,
               shape: RoundedRectangleBorder(

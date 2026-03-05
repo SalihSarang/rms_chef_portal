@@ -26,7 +26,7 @@ class HomePage extends StatelessWidget {
           ShiftToggleButton(staffId: staff.id),
           const SizedBox(width: 8),
           IconButton(
-            icon: const Icon(Icons.logout, color: Colors.grey),
+            icon: const Icon(Icons.logout, color: NeutralColors.icon),
             tooltip: 'Logout',
             onPressed: () => context.read<AuthBloc>().add(SignOutEvent()),
           ),
