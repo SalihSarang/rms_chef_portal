@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "647362299120",
+    "project_id": "rms-project-b8903",
+    "storage_bucket": "rms-project-b8903.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647362299120:android:aba7bf06d8c24e4974ae35",
+        "android_client_info": {
+          "package_name": "com.example.cashier_portal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDz-uZrHs3gPmkyFwFNDfm-Jov5H-2-5nY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647362299120:android:da0315fe346d220974ae35",
+        "android_client_info": {
+          "package_name": "com.example.chef_portal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDz-uZrHs3gPmkyFwFNDfm-Jov5H-2-5nY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647362299120:android:0c296ea5af3f551374ae35",
+        "android_client_info": {
+          "package_name": "com.example.waiter_portal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDz-uZrHs3gPmkyFwFNDfm-Jov5H-2-5nY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
