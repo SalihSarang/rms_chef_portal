@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rms_design_system/app_colors/semantic_colors.dart';
 import 'package:rms_design_system/app_colors/neutral_colors.dart';
 import 'package:rms_design_system/app_colors/primary_colors.dart';
-import 'package:chef_portal/features/home/presentation/bloc/shift_bloc.dart';
-import 'package:chef_portal/features/home/presentation/bloc/shift_event.dart';
-import 'package:chef_portal/features/home/presentation/bloc/shift_state.dart';
+import 'package:chef_portal/features/profile/presentation/bloc/shift_bloc/shift_bloc.dart';
+import 'package:chef_portal/features/profile/presentation/bloc/shift_bloc/shift_event.dart';
+import 'package:chef_portal/features/profile/presentation/bloc/shift_bloc/shift_state.dart';
 
 class ShiftToggleButton extends StatelessWidget {
   final String staffId;

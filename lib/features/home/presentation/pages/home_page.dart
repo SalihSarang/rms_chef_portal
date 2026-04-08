@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rms_design_system/app_colors/neutral_colors.dart';
-import 'package:chef_portal/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:chef_portal/features/auth/presentation/bloc/auth_event.dart';
+import 'package:chef_portal/features/home/presentation/bloc/kds_bloc/kds_bloc.dart';
+import 'package:chef_portal/features/home/presentation/bloc/kds_bloc/kds_state.dart';
 import 'package:rms_shared_package/models/staff_model/staff_model.dart';
-import 'package:chef_portal/features/home/presentation/widgets/home_welcome_section.dart';
-import 'package:chef_portal/features/home/presentation/widgets/shift_toggle_button.dart';
+import 'package:rms_shared_package/enums/enums.dart';
+
+import '../widgets/home_page_components/kds_app_bar.dart';
+import '../widgets/home_page_components/kds_empty_state.dart';
+import '../widgets/home_page_components/kds_order_grid.dart';
 
 class HomePage extends StatelessWidget {
   final StaffModel staff;
@@ -14,26 +17,24 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: NeutralColors.background,
-      appBar: AppBar(
-        title: const Text(
-          'Chef Dashboard',
-          style: TextStyle(color: NeutralColors.white),
-        ),
-        backgroundColor: NeutralColors.glassBackground,
-        actions: [
-          ShiftToggleButton(staffId: staff.id),
-          const SizedBox(width: 8),
-          IconButton(
-            icon: const Icon(Icons.logout, color: NeutralColors.icon),
-            tooltip: 'Logout',
-            onPressed: () => context.read<AuthBloc>().add(SignOutEvent()),
-          ),
-          const SizedBox(width: 8),
-        ],
-      ),
-      body: HomeWelcomeSection(userName: staff.name),
+    return BlocBuilder<KdsBloc, KdsState>(
+      builder: (context, state) {
+        final filteredOrders = state.orders.where((order) {
+          if (state.showCompleted) {
+            return order.orderStatus == OrderStatus.completed;
+          } else {
+            return order.orderStatus != OrderStatus.completed;
+          }
+        }).toList();
+
+        return Scaffold(
+          backgroundColor: NeutralColors.background,
+          appBar: KdsAppBar(state: state),
+          body: filteredOrders.isEmpty
+              ? KdsEmptyState(showCompleted: state.showCompleted)
+              : KdsOrderGrid(orders: filteredOrders),
+        );
+      },
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:chef_portal/core/di/injector.dart';
-import 'package:chef_portal/features/home/presentation/bloc/shift_bloc.dart';
+import 'package:chef_portal/features/profile/presentation/bloc/shift_bloc/shift_bloc.dart';
 import 'package:chef_portal/features/home/presentation/pages/home_page.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_event.dart';
