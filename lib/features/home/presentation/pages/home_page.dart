@@ -9,6 +9,8 @@ import 'package:rms_shared_package/enums/enums.dart';
 import '../widgets/home_page_components/kds_app_bar.dart';
 import '../widgets/home_page_components/kds_empty_state.dart';
 import '../widgets/home_page_components/kds_order_grid.dart';
+import 'package:chef_portal/features/profile/presentation/bloc/shift_bloc/shift_bloc.dart';
+import 'package:chef_portal/features/profile/presentation/page/profile_page.dart';
 
 class HomePage extends StatelessWidget {
   final StaffModel staff;
@@ -29,7 +31,21 @@ class HomePage extends StatelessWidget {
 
         return Scaffold(
           backgroundColor: NeutralColors.background,
-          appBar: KdsAppBar(state: state),
+          appBar: KdsAppBar(
+            state: state,
+            onProfileTap: () {
+              final shiftBloc = context.read<ShiftBloc>();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BlocProvider.value(
+                    value: shiftBloc,
+                    child: ProfilePage(staff: staff),
+                  ),
+                ),
+              );
+            },
+          ),
           body: filteredOrders.isEmpty
               ? KdsEmptyState(showCompleted: state.showCompleted)
               : KdsOrderGrid(orders: filteredOrders),

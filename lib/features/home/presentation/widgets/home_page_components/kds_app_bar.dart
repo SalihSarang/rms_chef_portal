@@ -9,8 +9,9 @@ import 'kds_tab_button.dart';
 
 class KdsAppBar extends StatelessWidget implements PreferredSizeWidget {
   final KdsState state;
+  final VoidCallback? onProfileTap;
 
-  const KdsAppBar({super.key, required this.state});
+  const KdsAppBar({super.key, required this.state, this.onProfileTap});
 
   @override
   Widget build(BuildContext context) {
@@ -68,13 +69,17 @@ class KdsAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
         const Icon(Icons.notifications_none, color: NeutralColors.white),
         const SizedBox(width: 16),
-        const CircleAvatar(
-          radius: 16,
-          backgroundColor: NeutralColors.surface,
-          child: Icon(
-            Icons.person_outline,
-            size: 20,
-            color: NeutralColors.white,
+        InkWell(
+          onTap: onProfileTap,
+          borderRadius: BorderRadius.circular(16),
+          child: const CircleAvatar(
+            radius: 16,
+            backgroundColor: NeutralColors.surface,
+            child: Icon(
+              Icons.person_outline,
+              size: 20,
+              color: NeutralColors.white,
+            ),
           ),
         ),
         const SizedBox(width: 16),

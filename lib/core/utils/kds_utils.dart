@@ -11,6 +11,13 @@ class KdsUtils {
     return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
   }
 
+  static String formatTime(DateTime? dateTime) {
+    if (dateTime == null) return "00 : 00";
+    final hours = dateTime.hour.toString().padLeft(2, '0');
+    final minutes = dateTime.minute.toString().padLeft(2, '0');
+    return "$hours : $minutes";
+  }
+
   static Color getStatusColor(OrderStatus status) {
     switch (status) {
       case OrderStatus.pending:
