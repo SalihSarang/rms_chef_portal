@@ -22,9 +22,11 @@ class KdsOrderCardAction extends StatelessWidget {
       case OrderStatus.preparing:
         return 'MARK READY';
       case OrderStatus.ready:
-        return 'Complete';
+        return 'READY';
+      case OrderStatus.served:
+        return 'SERVED';
       case OrderStatus.completed:
-        return 'Done';
+        return 'COMPLETED';
     }
   }
 
@@ -35,8 +37,8 @@ class KdsOrderCardAction extends StatelessWidget {
       case OrderStatus.preparing:
         return Icons.check_circle_outline;
       case OrderStatus.ready:
-        return Icons.check;
-      default:
+      case OrderStatus.served:
+      case OrderStatus.completed:
         return Icons.check;
     }
   }
@@ -47,8 +49,6 @@ class KdsOrderCardAction extends StatelessWidget {
         return OrderStatus.preparing;
       case OrderStatus.preparing:
         return OrderStatus.ready;
-      case OrderStatus.ready:
-        return OrderStatus.completed;
       default:
         return null;
     }
@@ -60,7 +60,9 @@ class KdsOrderCardAction extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
+
       child: RmsButton(
+        height: 44,
         text: _getButtonText(),
         borderColor: statusColor,
         icon: Icon(_getButtonIcon(), color: NeutralColors.white),

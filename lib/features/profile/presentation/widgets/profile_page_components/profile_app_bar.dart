@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:rms_design_system/app_colors/neutral_colors.dart';
 
+/// A custom [AppBar] tailored for the [ProfilePage].
+///
+/// It focuses exclusively on navigation and user identity, providing a
+/// back button and a read-only profile avatar.
 class ProfileAppBar extends StatelessWidget implements PreferredSizeWidget {
   const ProfileAppBar({super.key});
 

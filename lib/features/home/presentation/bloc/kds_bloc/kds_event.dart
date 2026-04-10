@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:rms_shared_package/enums/enums.dart';
+import 'package:rms_shared_package/models/order_model/order_model.dart';
 
 abstract class KdsEvent extends Equatable {
   const KdsEvent();
@@ -9,6 +10,13 @@ abstract class KdsEvent extends Equatable {
 }
 
 class FetchKdsOrdersEvent extends KdsEvent {}
+
+class OrdersUpdatedInternal extends KdsEvent {
+  final List<OrderModel> orders;
+  const OrdersUpdatedInternal(this.orders);
+  @override
+  List<Object> get props => [orders];
+}
 
 class UpdateKdsOrderStatusEvent extends KdsEvent {
   final String orderId;
@@ -30,4 +38,19 @@ class ToggleKdsTabEvent extends KdsEvent {
 
   @override
   List<Object> get props => [showCompleted];
+}
+
+class ToggleKdsItemPreparedEvent extends KdsEvent {
+  final String orderId;
+  final int itemIndex;
+  final bool isPrepared;
+
+  const ToggleKdsItemPreparedEvent({
+    required this.orderId,
+    required this.itemIndex,
+    required this.isPrepared,
+  });
+
+  @override
+  List<Object> get props => [orderId, itemIndex, isPrepared];
 }

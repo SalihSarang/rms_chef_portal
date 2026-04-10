@@ -2,24 +2,72 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:rms_design_system/app_colors/neutral_colors.dart';
 import 'package:chef_portal/core/utils/kds_utils.dart';
+import 'package:rms_shared_package/enums/enums.dart';
 
+/// A dynamic timer that displays the elapsed time for an order.
+///
+/// It stops updating and displays the final duration (Created to Updated)
+/// when the order is marked as [OrderStatus.ready].
 class KdsOrderTimer extends StatefulWidget {
+  /// The time the order was first created.
   final DateTime createdAt;
 
-  const KdsOrderTimer({super.key, required this.createdAt});
+  /// The time the order was last updated (used to calculate final duration).
+  final DateTime updatedAt;
+
+  /// The current state of the order, used to determine if the timer should run.
+  final OrderStatus status;
+
+  const KdsOrderTimer({
+    super.key,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.status,
+  });
 
   @override
   State<KdsOrderTimer> createState() => _KdsOrderTimerState();
 }
 
 class _KdsOrderTimerState extends State<KdsOrderTimer> {
-  late Timer _timer;
+  Timer? _timer;
   late Duration _elapsed;
+
+  bool get _isTimerStopped =>
+      widget.status == OrderStatus.ready ||
+      widget.status == OrderStatus.served ||
+      widget.status == OrderStatus.completed;
 
   @override
   void initState() {
     super.initState();
-    _elapsed = DateTime.now().difference(widget.createdAt);
+    _calculateElapsed();
+    if (!_isTimerStopped) {
+      _startTimer();
+    }
+  }
+
+  @override
+  void didUpdateWidget(KdsOrderTimer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (_isTimerStopped) {
+      _timer?.cancel();
+    } else if (_timer == null || !_timer!.isActive) {
+      _startTimer();
+    }
+    _calculateElapsed();
+  }
+
+  void _calculateElapsed() {
+    if (_isTimerStopped) {
+      _elapsed = widget.updatedAt.difference(widget.createdAt);
+    } else {
+      _elapsed = DateTime.now().difference(widget.createdAt);
+    }
+  }
+
+  void _startTimer() {
+    _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (mounted) {
         setState(() {
@@ -31,7 +79,7 @@ class _KdsOrderTimerState extends State<KdsOrderTimer> {
 
   @override
   void dispose() {
-    _timer.cancel();
+    _timer?.cancel();
     super.dispose();
   }
 

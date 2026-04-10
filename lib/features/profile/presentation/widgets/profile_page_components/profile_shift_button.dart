@@ -6,7 +6,12 @@ import 'package:chef_portal/features/profile/presentation/bloc/shift_bloc/shift_
 import 'package:chef_portal/features/profile/presentation/bloc/shift_bloc/shift_event.dart';
 import 'package:chef_portal/features/profile/presentation/bloc/shift_bloc/shift_state.dart';
 
+/// A dynamic, state-aware button for toggling the chef's shift.
+///
+/// It listens to the [ShiftBloc] and switches between "START SHIFT"
+/// and "END SHIFT" labels and actions based on the current [ShiftState].
 class ProfileShiftButton extends StatelessWidget {
+  /// The unique identifier of the staff member managing their shift.
   final String staffId;
 
   const ProfileShiftButton({super.key, required this.staffId});
@@ -52,8 +57,9 @@ class ProfileShiftButton extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: (isActive ? StatusColors.pending : StatusColors.preparing)
-                    .withValues(alpha: 0.5),
+                color:
+                    (isActive ? StatusColors.pending : StatusColors.preparing)
+                        .withValues(alpha: 0.5),
               ),
             ),
             child: Row(
@@ -61,14 +67,18 @@ class ProfileShiftButton extends StatelessWidget {
               children: [
                 Icon(
                   isActive ? Icons.stop_circle : Icons.play_circle_filled,
-                  color: isActive ? StatusColors.pending : StatusColors.preparing,
+                  color: isActive
+                      ? StatusColors.pending
+                      : StatusColors.preparing,
                   size: 20,
                 ),
                 const SizedBox(width: 16),
                 Text(
                   isActive ? "END SHIFT" : "START SHIFT",
                   style: TextStyle(
-                    color: isActive ? StatusColors.pending : StatusColors.preparing,
+                    color: isActive
+                        ? StatusColors.pending
+                        : StatusColors.preparing,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.2,
                   ),

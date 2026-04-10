@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rms_design_system/app_colors/neutral_colors.dart';
 import 'package:rms_design_system/app_colors/status_colors.dart';
 import 'package:rms_shared_package/enums/enums.dart';
 
@@ -25,9 +24,9 @@ class KdsUtils {
       case OrderStatus.preparing:
         return StatusColors.preparing;
       case OrderStatus.ready:
-        return StatusColors.ready;
+      case OrderStatus.served:
       case OrderStatus.completed:
-        return NeutralColors.icon;
+        return StatusColors.ready;
     }
   }
 
@@ -39,8 +38,19 @@ class KdsUtils {
         return 'PREP';
       case OrderStatus.ready:
         return 'READY';
+      case OrderStatus.served:
+        return 'SERVED';
       case OrderStatus.completed:
         return 'COMPLETED';
+    }
+  }
+
+  static String formatElapsedTime(DateTime dateTime) {
+    final difference = DateTime.now().difference(dateTime);
+    if (difference.inMinutes < 60) {
+      return '${difference.inMinutes}m';
+    } else {
+      return '${difference.inHours}h ${difference.inMinutes.remainder(60)}m';
     }
   }
 }

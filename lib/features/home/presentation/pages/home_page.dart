@@ -12,7 +12,12 @@ import '../widgets/home_page_components/kds_order_grid.dart';
 import 'package:chef_portal/features/profile/presentation/bloc/shift_bloc/shift_bloc.dart';
 import 'package:chef_portal/features/profile/presentation/page/profile_page.dart';
 
+/// The main landing page for the Kitchen Display System (KDS).
+///
+/// This page displays a grid of incoming or completed orders and provides
+/// access to the user profile and shift management.
 class HomePage extends StatelessWidget {
+  /// The current logged-in staff member.
   final StaffModel staff;
 
   const HomePage({super.key, required this.staff});
@@ -23,9 +28,12 @@ class HomePage extends StatelessWidget {
       builder: (context, state) {
         final filteredOrders = state.orders.where((order) {
           if (state.showCompleted) {
-            return order.orderStatus == OrderStatus.completed;
+            return order.orderStatus == OrderStatus.ready ||
+                order.orderStatus == OrderStatus.served ||
+                order.orderStatus == OrderStatus.completed;
           } else {
-            return order.orderStatus != OrderStatus.completed;
+            return order.orderStatus == OrderStatus.pending ||
+                order.orderStatus == OrderStatus.preparing;
           }
         }).toList();
 

@@ -14,7 +14,12 @@ import 'package:rms_shared_package/enums/enums.dart';
 import 'package:chef_portal/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:chef_portal/features/auth/presentation/bloc/auth_event.dart';
 
+/// The main dashboard for the chef's profile.
+///
+/// It displays personal information, shift history, performance metrics (completed orders),
+/// and provides actions for shift management and logging out.
 class ProfilePage extends StatelessWidget {
+  /// The [StaffModel] of the currently logged-in chef.
   final StaffModel staff;
 
   const ProfilePage({super.key, required this.staff});
@@ -48,7 +53,10 @@ class ProfilePage extends StatelessWidget {
                         builder: (context, state) {
                           final completedCount = state.orders
                               .where(
-                                (o) => o.orderStatus == OrderStatus.completed,
+                                (o) =>
+                                    o.orderStatus == OrderStatus.ready ||
+                                    o.orderStatus == OrderStatus.served ||
+                                    o.orderStatus == OrderStatus.completed,
                               )
                               .length;
                           return StatCard(

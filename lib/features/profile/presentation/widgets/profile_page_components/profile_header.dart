@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:rms_design_system/app_colors/neutral_colors.dart';
 import 'package:rms_shared_package/models/staff_model/staff_model.dart';
 
+/// The top header card of the profile screen.
+///
+/// Displays the chef's avatar, name, and role in a prominent,
+/// stylized container.
 class ProfileHeader extends StatelessWidget {
+  /// The [StaffModel] containing the identity details of the chef.
   final StaffModel staff;
 
   const ProfileHeader({super.key, required this.staff});

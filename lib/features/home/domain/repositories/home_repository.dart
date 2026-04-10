@@ -4,4 +4,9 @@ import 'package:rms_shared_package/enums/enums.dart';
 abstract class HomeRepository {
   Stream<List<OrderModel>> getOrders();
   Future<void> updateOrderStatus(String orderId, OrderStatus status);
+  Future<void> updateItemPreparationStatus(
+    String orderId,
+    int itemIndex,
+    bool isPrepared,
+  );
 }

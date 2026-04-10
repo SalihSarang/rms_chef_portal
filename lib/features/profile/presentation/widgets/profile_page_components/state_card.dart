@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:rms_design_system/app_colors/neutral_colors.dart';
 
+/// A reusable card for displaying a single metric in the profile dashboard.
+///
+/// It includes an icon, a label, and a prominently displayed value.
 class StatCard extends StatelessWidget {
+  /// The icon representing the metric.
   final IconData icon;
+
+  /// The descriptive label for the metric (e.g., "SHIFT START").
   final String label;
+
+  /// The actual value to display (e.g., "09:30 AM").
   final String value;
 
   const StatCard({

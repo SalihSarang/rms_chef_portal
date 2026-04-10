@@ -5,15 +5,8 @@ import 'package:rms_shared_package/models/order_model/ordered_menu_model.dart';
 
 class KdsItemTile extends StatelessWidget {
   final CartItemModel item;
-  final bool isChecked;
-  final ValueChanged<bool?> onChanged;
 
-  const KdsItemTile({
-    super.key,
-    required this.item,
-    this.isChecked = false,
-    required this.onChanged,
-  });
+  const KdsItemTile({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -25,17 +18,6 @@ class KdsItemTile extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                height: 24,
-                width: 24,
-                child: Checkbox(
-                  value: isChecked,
-                  onChanged: onChanged,
-                  activeColor: StatusColors.preparing,
-                  side: const BorderSide(color: NeutralColors.border, width: 1),
-                ),
-              ),
-              const SizedBox(width: 8),
               Text(
                 '${item.quantity}x',
                 style: const TextStyle(
@@ -48,11 +30,10 @@ class KdsItemTile extends StatelessWidget {
               Expanded(
                 child: Text(
                   item.name,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: NeutralColors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
-                    decoration: isChecked ? TextDecoration.lineThrough : null,
                   ),
                 ),
               ),

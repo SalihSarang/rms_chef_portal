@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:chef_portal/features/home/domain/repositories/home_repository.dart';
-import 'package:rms_shared_package/models/order_model/order_model.dart';
 import 'kds_event.dart';
 import 'kds_state.dart';
 
@@ -13,7 +12,8 @@ class KdsBloc extends Bloc<KdsEvent, KdsState> {
     on<FetchKdsOrdersEvent>(_onFetchOrders);
     on<UpdateKdsOrderStatusEvent>(_onUpdateOrderStatus);
     on<ToggleKdsTabEvent>(_onToggleTab);
-    on<_OrdersUpdatedInternal>(_onOrdersUpdated);
+    on<ToggleKdsItemPreparedEvent>(_onToggleItemPrepared);
+    on<OrdersUpdatedInternal>(_onOrdersUpdated);
   }
 
   Future<void> _onFetchOrders(
@@ -24,11 +24,11 @@ class KdsBloc extends Bloc<KdsEvent, KdsState> {
     await _ordersSubscription?.cancel();
 
     _ordersSubscription = homeRepository.getOrders().listen((orders) {
-      add(_OrdersUpdatedInternal(orders));
+      add(OrdersUpdatedInternal(orders));
     });
   }
 
-  void _onOrdersUpdated(_OrdersUpdatedInternal event, Emitter<KdsState> emit) {
+  void _onOrdersUpdated(OrdersUpdatedInternal event, Emitter<KdsState> emit) {
     emit(state.copyWith(status: KdsStatus.loaded, orders: event.orders));
   }
 
@@ -43,6 +43,21 @@ class KdsBloc extends Bloc<KdsEvent, KdsState> {
     }
   }
 
+  Future<void> _onToggleItemPrepared(
+    ToggleKdsItemPreparedEvent event,
+    Emitter<KdsState> emit,
+  ) async {
+    try {
+      await homeRepository.updateItemPreparationStatus(
+        event.orderId,
+        event.itemIndex,
+        event.isPrepared,
+      );
+    } catch (e) {
+      emit(state.copyWith(errorMessage: e.toString()));
+    }
+  }
+
   void _onToggleTab(ToggleKdsTabEvent event, Emitter<KdsState> emit) {
     emit(state.copyWith(showCompleted: event.showCompleted));
   }
@@ -52,12 +67,4 @@ class KdsBloc extends Bloc<KdsEvent, KdsState> {
     _ordersSubscription?.cancel();
     return super.close();
   }
-}
-
-// Internal private event for stream handling
-class _OrdersUpdatedInternal extends KdsEvent {
-  final List<OrderModel> orders;
-  const _OrdersUpdatedInternal(this.orders);
-  @override
-  List<Object> get props => [orders];
 }
