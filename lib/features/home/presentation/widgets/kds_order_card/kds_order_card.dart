@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:rms_design_system/app_colors/neutral_colors.dart';
+import 'package:rms_design_system/rms_design_system.dart';
 import 'package:rms_shared_package/enums/enums.dart';
 import 'package:rms_shared_package/models/order_model/order_model.dart';
 import 'package:chef_portal/core/utils/kds_utils.dart';
 
-import 'components/kds_order_card_header.dart';
-import 'components/kds_order_card_items.dart';
-import 'components/kds_order_card_action.dart';
+import 'components/kds_order_card_content.dart';
 
 /// A card that displays a single customer order and its current status.
 class KdsOrderCard extends StatelessWidget {
@@ -43,51 +41,10 @@ class KdsOrderCard extends StatelessWidget {
             ),
           ],
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(16),
-          child: Column(
-            children: [
-              // Top Accent Line
-              Container(height: 4, width: double.infinity, color: statusColor),
-
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      KdsOrderCardHeader(
-                        statusColor: statusColor,
-                        statusText: KdsUtils.getStatusText(order.orderStatus),
-                        orderId: order.id,
-                        createdAt: order.createdAt,
-                        updatedAt: order.updatedAt,
-                        status: order.orderStatus,
-                      ),
-                      const SizedBox(height: 12),
-                      Text(
-                        'Table ${order.tableNumber}',
-                        style: const TextStyle(
-                          color: NeutralColors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Expanded(
-                        child: KdsOrderCardItems(items: order.orderedMenu),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              KdsOrderCardAction(
-                orderStatus: order.orderStatus,
-                statusColor: statusColor,
-                onStatusChange: onStatusChange,
-              ),
-            ],
-          ),
+        child: KdsOrderCardContent(
+          order: order,
+          statusColor: statusColor,
+          onStatusChange: onStatusChange,
         ),
       ),
     );

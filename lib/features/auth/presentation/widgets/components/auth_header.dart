@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rms_design_system/app_colors/neutral_colors.dart';
+import 'package:rms_design_system/rms_design_system.dart';
+import 'package:chef_portal/features/auth/presentation/widgets/components/auth_header_icon.dart';
+import 'package:chef_portal/core/widgets/custom_text.dart';
 
 class AuthHeader extends StatelessWidget {
   final IconData icon;
@@ -17,33 +19,14 @@ class AuthHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Center(
-          child: Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
-              color: NeutralColors.authFieldBackground,
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: NeutralColors.glassBorder),
-            ),
-            child: Icon(icon, color: NeutralColors.icon, size: 24),
-          ),
-        ),
+        AuthHeaderIcon(icon: icon),
         const SizedBox(height: 24),
-        Text(
-          title,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: NeutralColors.white,
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        CustomText.header(title, textAlign: TextAlign.center),
         const SizedBox(height: 8),
-        Text(
+        CustomText(
           subtitle,
           textAlign: TextAlign.center,
-          style: const TextStyle(color: NeutralColors.icon, fontSize: 14),
+          color: NeutralColors.icon,
         ),
       ],
     );

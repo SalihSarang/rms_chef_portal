@@ -3,9 +3,9 @@ import 'package:rms_design_system/rms_design_system.dart';
 import 'package:rms_shared_package/rms_shared_package.dart';
 import 'components/status_action_button.dart';
 
-/// The [OrderDetailsActions] widget provides the primary interaction area 
+/// The [OrderDetailsActions] widget provides the primary interaction area
 /// for chefs to manage the lifecycle of an order.
-/// 
+///
 /// It dynamically renders action buttons based on the current [OrderStatus].
 class OrderDetailsActions extends StatelessWidget {
   /// The order being managed.
@@ -54,7 +54,8 @@ class OrderDetailsActions extends StatelessWidget {
         return StatusActionButton(
           label: 'MARK AS READY',
           dialogTitle: 'Order Ready',
-          dialogMessage: 'Has this order been fully prepared and is it ready for pickup?',
+          dialogMessage:
+              'Has this order been fully prepared and is it ready for pickup?',
           targetStatus: OrderStatus.ready,
           dialogType: RmsAlertDialogType.success,
           borderColor: StatusColors.ready,

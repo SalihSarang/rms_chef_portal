@@ -1,6 +1,6 @@
 import 'dart:async';
+import 'package:rms_design_system/rms_design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:rms_design_system/app_colors/neutral_colors.dart';
 import 'package:chef_portal/core/utils/kds_utils.dart';
 import 'package:rms_shared_package/enums/enums.dart';
 
@@ -88,7 +88,7 @@ class _KdsOrderTimerState extends State<KdsOrderTimer> {
     return Text(
       KdsUtils.formatDuration(_elapsed),
       style: const TextStyle(
-        color: NeutralColors.white,
+        color: TextColors.primary,
         fontSize: 16,
         fontWeight: FontWeight.bold,
       ),

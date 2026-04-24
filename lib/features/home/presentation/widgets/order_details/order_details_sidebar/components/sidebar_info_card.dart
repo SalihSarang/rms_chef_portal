@@ -3,6 +3,8 @@ import 'package:rms_design_system/app_colors/neutral_colors.dart';
 import 'package:rms_design_system/app_colors/text_colors.dart';
 import 'package:rms_shared_package/models/order_model/order_model.dart';
 
+import 'info_grid.dart';
+
 /// A card that displays essential order metadata such as the server name,
 /// guest count, and order type.
 class SidebarInfoCard extends StatelessWidget {
@@ -31,58 +33,7 @@ class SidebarInfoCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          _InfoGrid(order: order),
-        ],
-      ),
-    );
-  }
-}
-
-class _InfoGrid extends StatelessWidget {
-  final OrderModel order;
-
-  const _InfoGrid({required this.order});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            _InfoItem(label: 'Server', value: order.staffName),
-            _InfoItem(label: 'Guests', value: '${order.seatCount} '),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class _InfoItem extends StatelessWidget {
-  final String label;
-  final String value;
-
-  const _InfoItem({required this.label, required this.value});
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: const TextStyle(color: TextColors.secondary, fontSize: 10),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            value,
-            style: const TextStyle(
-              color: NeutralColors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          InfoGrid(order: order),
         ],
       ),
     );

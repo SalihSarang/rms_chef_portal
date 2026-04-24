@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:rms_design_system/app_colors/neutral_colors.dart';
 import 'package:rms_shared_package/models/order_model/ordered_menu_model.dart';
+import 'item_checkbox.dart';
+import 'item_name.dart';
+import 'item_portion_badge.dart';
+import 'item_quantity.dart';
 
 /// The header component of an ordered item tile, containing identification
 /// and quantity information.
@@ -11,78 +14,30 @@ class ItemHeader extends StatelessWidget {
   /// Callback when the checkbox is toggled.
   final Function(bool) onToggle;
 
-  const ItemHeader({super.key, required this.item, required this.onToggle});
+  /// Whether the item is interactive.
+  final bool enabled;
+
+  const ItemHeader({
+    super.key,
+    required this.item,
+    required this.onToggle,
+    this.enabled = true,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        // Standard Checkbox
-        SizedBox(
-          width: 24,
-          height: 24,
-          child: Checkbox(
-            value: item.isPrepared,
-            onChanged: (value) => onToggle(value ?? false),
-            activeColor: Colors.blue,
-            checkColor: NeutralColors.white,
-            visualDensity: VisualDensity.compact,
-            side: BorderSide(
-              color: item.isPrepared
-                  ? Colors.blue
-                  : NeutralColors.border.withValues(alpha: 0.5),
-              width: 2,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(6),
-            ),
-          ),
+        ItemCheckbox(
+          isPrepared: item.isPrepared,
+          onToggle: onToggle,
+          enabled: enabled,
         ),
-        const SizedBox(width: 16),
+        ItemName(name: item.name, isPrepared: item.isPrepared),
 
-        // Item Name
-        Text(
-          item.name,
-          style: TextStyle(
-            color: item.isPrepared
-                ? NeutralColors.white.withValues(alpha: 0.5)
-                : NeutralColors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            decoration: item.isPrepared ? TextDecoration.lineThrough : null,
-          ),
-        ),
-        const SizedBox(width: 12),
-
-        // Portion Badge (e.g., FULL, HALF)
         if (item.selectedPortion != null)
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            decoration: BoxDecoration(
-              color: NeutralColors.border.withValues(alpha: 0.5),
-              borderRadius: BorderRadius.circular(6),
-            ),
-            child: Text(
-              item.selectedPortion!.name.toUpperCase(),
-              style: const TextStyle(
-                color: NeutralColors.white,
-                fontSize: 10,
-                fontWeight: FontWeight.w900,
-              ),
-            ),
-          ),
-
-        const Spacer(),
-
-        // Quantity Indicator
-        Text(
-          'x${item.quantity}',
-          style: const TextStyle(
-            color: NeutralColors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+          ItemPortionBadge(portionName: item.selectedPortion!.name),
+        ItemQuantity(quantity: item.quantity),
       ],
     );
   }

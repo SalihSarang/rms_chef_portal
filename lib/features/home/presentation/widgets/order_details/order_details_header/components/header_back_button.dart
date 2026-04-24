@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rms_design_system/app_colors/neutral_colors.dart';
+import 'package:rms_design_system/rms_design_system.dart';
 
 /// A circular back button with a consistent style used in the order details header.
 class HeaderBackButton extends StatelessWidget {
@@ -23,7 +23,7 @@ class HeaderBackButton extends StatelessWidget {
         ),
         child: const Icon(
           Icons.arrow_back,
-          color: NeutralColors.white,
+          color: TextColors.primary,
           size: 20,
         ),
       ),

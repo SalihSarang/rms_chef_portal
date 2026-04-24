@@ -5,11 +5,13 @@ import 'order_details_item_tile/order_details_item_tile.dart';
 class OrderDetailsItems extends StatelessWidget {
   final List<CartItemModel> items;
   final Function(int index, bool isPrepared) onToggle;
+  final bool enabled;
 
   const OrderDetailsItems({
     super.key,
     required this.items,
     required this.onToggle,
+    this.enabled = true,
   });
 
   @override
@@ -22,6 +24,7 @@ class OrderDetailsItems extends StatelessWidget {
         key: ValueKey('order_item_$index'),
         item: items[index],
         onToggle: (isPrepared) => onToggle(index, isPrepared),
+        enabled: enabled,
       ),
     );
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rms_design_system/app_colors/neutral_colors.dart';
+import 'package:rms_design_system/rms_design_system.dart';
 
 /// A specialized button used for switching between tabs in the [KdsAppBar].
 ///
@@ -29,14 +29,16 @@ class KdsTabButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
-          color: isActive ? NeutralColors.appBarBackground : Colors.transparent,
+          color: isActive
+              ? NeutralColors.appBarBackground
+              : NeutralColors.transparent,
           borderRadius: BorderRadius.circular(8),
         ),
         alignment: Alignment.center,
         child: Text(
           text,
           style: TextStyle(
-            color: isActive ? NeutralColors.white : NeutralColors.icon,
+            color: isActive ? TextColors.primary : NeutralColors.icon,
             fontSize: 12,
             fontWeight: FontWeight.bold,
           ),

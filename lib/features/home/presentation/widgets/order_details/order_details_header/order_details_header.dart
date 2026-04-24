@@ -1,20 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:rms_design_system/app_colors/neutral_colors.dart';
+import 'package:rms_design_system/rms_design_system.dart';
 import 'package:rms_shared_package/models/order_model/order_model.dart';
 import 'package:chef_portal/core/utils/kds_utils.dart';
 
-import 'components/header_back_button.dart';
-import 'components/header_status_indicator.dart';
-import 'components/header_timer.dart';
+import 'components/order_details_header_content.dart';
 
-/// The [OrderDetailsHeader] provides quick navigation and high-level status 
+/// The [OrderDetailsHeader] provides quick navigation and high-level status
 /// information for a specific order.
-/// 
-/// It includes:
-/// - A back button for easy navigation.
-/// - The Table Number prominently displayed.
-/// - Current Order Status with color coding.
-/// - Elapsed time since the order was placed.
 class OrderDetailsHeader extends StatelessWidget {
   /// The order whose header information is being displayed.
   final OrderModel order;
@@ -29,38 +21,7 @@ class OrderDetailsHeader extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
       decoration: const BoxDecoration(color: NeutralColors.background),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // Left Section: Navigation and Identification
-          Row(
-            children: [
-              HeaderBackButton(onTap: () => Navigator.of(context).pop()),
-              const SizedBox(width: 20),
-              Text(
-                'TABLE ${order.tableNumber}',
-                style: const TextStyle(
-                  color: NeutralColors.white,
-                  fontSize: 28,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 1.2,
-                ),
-              ),
-            ],
-          ),
-
-          // Right Section: Status Tracking and Time
-          Row(
-            children: [
-              HeaderStatusIndicator(statusText: statusText),
-              const SizedBox(width: 24),
-              HeaderTimer(
-                elapsedTime: KdsUtils.formatElapsedTime(order.createdAt),
-              ),
-            ],
-          ),
-        ],
-      ),
+      child: OrderDetailsHeaderContent(order: order, statusText: statusText),
     );
   }
 }

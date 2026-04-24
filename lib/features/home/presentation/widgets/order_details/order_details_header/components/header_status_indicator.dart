@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rms_design_system/rms_design_system.dart';
 
 /// Displays the current status of an order in the header.
 class HeaderStatusIndicator extends StatelessWidget {
@@ -15,7 +16,7 @@ class HeaderStatusIndicator extends StatelessWidget {
         const Text(
           'Status',
           style: TextStyle(
-            color: Colors.amber,
+            color: StatusColors.pending,
             fontSize: 10,
             fontWeight: FontWeight.bold,
             letterSpacing: 0.5,
@@ -24,7 +25,7 @@ class HeaderStatusIndicator extends StatelessWidget {
         Text(
           statusText.toUpperCase(),
           style: const TextStyle(
-            color: Colors.amber,
+            color: StatusColors.pending,
             fontSize: 18,
             fontWeight: FontWeight.w900,
           ),

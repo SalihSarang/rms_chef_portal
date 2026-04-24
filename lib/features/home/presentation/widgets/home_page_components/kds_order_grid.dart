@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:chef_portal/features/home/presentation/bloc/kds_bloc/kds_bloc.dart';
-import 'package:chef_portal/features/home/presentation/bloc/kds_bloc/kds_event.dart';
-import 'package:chef_portal/features/home/presentation/widgets/kds_order_card/kds_order_card.dart';
-import 'package:chef_portal/features/home/presentation/pages/order_details_page.dart';
 import 'package:rms_shared_package/models/order_model/order_model.dart';
-import 'package:rms_shared_package/enums/enums.dart';
+import 'kds_order_grid_item.dart';
 
 /// A responsive grid that displays multiple [KdsOrderCard] widgets.
 ///
@@ -39,31 +34,7 @@ class KdsOrderGrid extends StatelessWidget {
           itemCount: orders.length,
           itemBuilder: (context, index) {
             final order = orders[index];
-            return KdsOrderCard(
-              order: order,
-              onStatusChange: (status) {
-                context.read<KdsBloc>().add(
-                  UpdateKdsOrderStatusEvent(orderId: order.id, status: status),
-                );
-              },
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (modalContext) => OrderDetailsPage(
-                      order: order,
-                      onStatusChange: (orderId, OrderStatus status) {
-                        context.read<KdsBloc>().add(
-                          UpdateKdsOrderStatusEvent(
-                            orderId: orderId,
-                            status: status,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                );
-              },
-            );
+            return KdsOrderGridItem(order: order);
           },
         );
       },

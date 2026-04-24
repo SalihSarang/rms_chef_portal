@@ -3,8 +3,8 @@ import 'package:rms_design_system/rms_design_system.dart';
 import 'package:rms_shared_package/rms_shared_package.dart';
 
 /// A reusable action button component for order status transitions.
-/// 
-/// This component encapsulates the styling (using [RmsButton]) and the 
+///
+/// This component encapsulates the styling (using [RmsButton]) and the
 /// confirmation logic (using [RmsAlertDialog]) for moving an order
 /// from one status to another.
 class StatusActionButton extends StatelessWidget {
@@ -42,22 +42,27 @@ class StatusActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isPrimary = targetStatus == OrderStatus.preparing || targetStatus == OrderStatus.ready;
-    
+    final isPrimary =
+        targetStatus == OrderStatus.preparing ||
+        targetStatus == OrderStatus.ready;
+
     return Container(
-      decoration: isPrimary ? BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.blue.withValues(alpha: 0.4),
-            blurRadius: 20,
-            spreadRadius: -5,
-            offset: const Offset(0, 10),
-          ),
-        ],
-      ) : null,
+      decoration: isPrimary
+          ? BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: PrimaryColors.defaultColor.withValues(alpha: 0.4),
+                  blurRadius: 20,
+                  spreadRadius: -5,
+                  offset: const Offset(0, 10),
+                ),
+              ],
+            )
+          : null,
       child: RmsButton(
         text: label.toUpperCase(),
-        borderColor: borderColor ?? (isPrimary ? Colors.blue : null),
+        borderColor:
+            borderColor ?? (isPrimary ? PrimaryColors.defaultColor : null),
         icon: isPrimary ? const Icon(Icons.play_circle_filled, size: 20) : null,
         height: 56,
         onPressed: () => _showConfirmation(context),

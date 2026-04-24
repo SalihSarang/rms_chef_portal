@@ -44,8 +44,21 @@ class OrderDetailsPage extends StatelessWidget {
                     Expanded(
                       child: OrderDetailsItems(
                         items: currentOrder.orderedMenu,
+                        enabled:
+                            currentOrder.orderStatus != OrderStatus.ready &&
+                            currentOrder.orderStatus != OrderStatus.served &&
+                            currentOrder.orderStatus != OrderStatus.completed,
                         onToggle: (index, isPrepared) {
                           if (!context.mounted) return;
+
+                          // Final safety check to ensure no updates happen for completed orders
+                          final isReadOnly =
+                              currentOrder.orderStatus == OrderStatus.ready ||
+                              currentOrder.orderStatus == OrderStatus.served ||
+                              currentOrder.orderStatus == OrderStatus.completed;
+
+                          if (isReadOnly) return;
+
                           context.read<KdsBloc>().add(
                             ToggleKdsItemPreparedEvent(
                               orderId: currentOrder.id,
@@ -63,7 +76,8 @@ class OrderDetailsPage extends StatelessWidget {
               // Sidebar Area (Right)
               OrderDetailsSidebar(
                 order: currentOrder,
-                onStatusChange: (status) => onStatusChange(currentOrder.id, status),
+                onStatusChange: (status) =>
+                    onStatusChange(currentOrder.id, status),
               ),
             ],
           ),
