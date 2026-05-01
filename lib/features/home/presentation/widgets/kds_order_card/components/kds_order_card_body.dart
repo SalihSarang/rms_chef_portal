@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rms_shared_package/models/order_model/order_model.dart';
-import 'kds_order_card_header_section.dart';
+import 'header/kds_order_card_header_section.dart';
 import 'kds_order_card_table_section.dart';
-import 'kds_order_card_items_section.dart';
+import 'items/kds_order_card_items_section.dart';
 
 /// The layout content for the KDS order card.
 class KdsOrderCardBody extends StatelessWidget {
@@ -24,7 +24,10 @@ class KdsOrderCardBody extends StatelessWidget {
           children: [
             KdsOrderCardHeaderSection(order: order, statusColor: statusColor),
             KdsOrderCardTableSection(tableNumber: order.tableNumber),
-            KdsOrderCardItemsSection(items: order.orderedMenu),
+            KdsOrderCardItemsSection(
+              items: order.orderedMenu,
+              statusColor: statusColor,
+            ),
           ],
         ),
       ),

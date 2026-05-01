@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:rms_shared_package/enums/enums.dart';
 import 'package:rms_shared_package/models/order_model/order_model.dart';
+import 'kds_state.dart';
 
 abstract class KdsEvent extends Equatable {
   const KdsEvent();
@@ -38,6 +39,15 @@ class ToggleKdsTabEvent extends KdsEvent {
 
   @override
   List<Object> get props => [showCompleted];
+}
+
+class ToggleKdsViewModeEvent extends KdsEvent {
+  final KdsViewMode viewMode;
+
+  const ToggleKdsViewModeEvent({required this.viewMode});
+
+  @override
+  List<Object> get props => [viewMode];
 }
 
 class ToggleKdsItemPreparedEvent extends KdsEvent {

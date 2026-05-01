@@ -6,10 +6,19 @@ import 'kds_order_card_items.dart';
 class KdsOrderCardItemsSection extends StatelessWidget {
   final List<CartItemModel> items;
 
-  const KdsOrderCardItemsSection({super.key, required this.items});
+  /// The status color passed down for quantity badge styling.
+  final Color statusColor;
+
+  const KdsOrderCardItemsSection({
+    super.key,
+    required this.items,
+    required this.statusColor,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(child: KdsOrderCardItems(items: items));
+    return Expanded(
+      child: KdsOrderCardItems(items: items, statusColor: statusColor),
+    );
   }
 }

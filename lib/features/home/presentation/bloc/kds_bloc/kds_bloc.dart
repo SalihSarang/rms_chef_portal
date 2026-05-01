@@ -12,6 +12,7 @@ class KdsBloc extends Bloc<KdsEvent, KdsState> {
     on<FetchKdsOrdersEvent>(_onFetchOrders);
     on<UpdateKdsOrderStatusEvent>(_onUpdateOrderStatus);
     on<ToggleKdsTabEvent>(_onToggleTab);
+    on<ToggleKdsViewModeEvent>(_onToggleViewMode);
     on<ToggleKdsItemPreparedEvent>(_onToggleItemPrepared);
     on<OrdersUpdatedInternal>(_onOrdersUpdated);
   }
@@ -60,6 +61,10 @@ class KdsBloc extends Bloc<KdsEvent, KdsState> {
 
   void _onToggleTab(ToggleKdsTabEvent event, Emitter<KdsState> emit) {
     emit(state.copyWith(showCompleted: event.showCompleted));
+  }
+
+  void _onToggleViewMode(ToggleKdsViewModeEvent event, Emitter<KdsState> emit) {
+    emit(state.copyWith(viewMode: event.viewMode));
   }
 
   @override

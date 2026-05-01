@@ -1,13 +1,13 @@
 import 'dart:async';
-import 'package:rms_design_system/rms_design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:chef_portal/core/utils/kds_utils.dart';
 import 'package:rms_shared_package/enums/enums.dart';
 
-/// A dynamic timer that displays the elapsed time for an order.
+/// A dynamic timer that displays the elapsed time for an order in a digital style.
 ///
-/// It stops updating and displays the final duration (Created to Updated)
-/// when the order is marked as [OrderStatus.ready].
+/// It shows a "TIME" label above when active, and "PREP TIME" label when the order
+/// is complete. The timer text is colored to match the current order status color.
+/// It stops updating when the order is [OrderStatus.ready] or beyond.
 class KdsOrderTimer extends StatefulWidget {
   /// The time the order was first created.
   final DateTime createdAt;
@@ -18,11 +18,15 @@ class KdsOrderTimer extends StatefulWidget {
   /// The current state of the order, used to determine if the timer should run.
   final OrderStatus status;
 
+  /// The status color used to style the timer text.
+  final Color statusColor;
+
   const KdsOrderTimer({
     super.key,
     required this.createdAt,
     required this.updatedAt,
     required this.status,
+    required this.statusColor,
   });
 
   @override
@@ -85,13 +89,32 @@ class _KdsOrderTimerState extends State<KdsOrderTimer> {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      KdsUtils.formatDuration(_elapsed),
-      style: const TextStyle(
-        color: TextColors.primary,
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-      ),
+    final label = _isTimerStopped ? 'PREP TIME' : 'TIME';
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            color: widget.statusColor.withValues(alpha: 0.7),
+            fontSize: 9,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1.0,
+          ),
+        ),
+        const SizedBox(height: 2),
+        Text(
+          KdsUtils.formatDuration(_elapsed),
+          style: TextStyle(
+            color: widget.statusColor,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1.5,
+            fontFeatures: const [FontFeature.tabularFigures()],
+          ),
+        ),
+      ],
     );
   }
 }

@@ -32,7 +32,6 @@ class OrderDetailsPage extends StatelessWidget {
         );
 
         return Scaffold(
-          key: ValueKey('order_details_${currentOrder.id}'),
           backgroundColor: NeutralColors.background,
           body: Row(
             children: [

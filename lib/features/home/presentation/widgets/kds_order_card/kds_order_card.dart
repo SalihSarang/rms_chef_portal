@@ -31,7 +31,8 @@ class KdsOrderCard extends StatelessWidget {
           color: NeutralColors.surface,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: NeutralColors.border.withValues(alpha: 0.5),
+            color: statusColor.withValues(alpha: 0.2),
+            width: 1,
           ),
           boxShadow: [
             BoxShadow(
@@ -41,10 +42,32 @@ class KdsOrderCard extends StatelessWidget {
             ),
           ],
         ),
-        child: KdsOrderCardContent(
-          order: order,
-          statusColor: statusColor,
-          onStatusChange: onStatusChange,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Left vertical accent bar
+              Container(
+                width: 4,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [statusColor, statusColor.withValues(alpha: 0.5)],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                ),
+              ),
+              // Card content
+              Expanded(
+                child: KdsOrderCardContent(
+                  order: order,
+                  statusColor: statusColor,
+                  onStatusChange: onStatusChange,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rms_shared_package/models/order_model/order_model.dart';
-import 'kds_order_grid_item.dart';
+import 'components/kds_order_grid_item.dart';
 
 /// A responsive grid that displays multiple [KdsOrderCard] widgets.
 ///

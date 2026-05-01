@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'kds_order_card_header_components.dart';
 
-/// A combined widget that displays the order's status badge
-/// and the order ID in a single row.
+/// Displays the order's status badge only (order ID is shown separately below).
 class KdsOrderStatusInfo extends StatelessWidget {
   final Color statusColor;
   final String statusText;
@@ -17,11 +16,6 @@ class KdsOrderStatusInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        StatusBadge(color: statusColor, text: statusText),
-        OrderIdText(orderId: orderId),
-      ],
-    );
+    return StatusBadge(color: statusColor, text: statusText);
   }
 }

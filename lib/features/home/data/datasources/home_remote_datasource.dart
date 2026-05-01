@@ -37,8 +37,16 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
           for (final doc in snapshot.docs) {
             try {
               final data = doc.data();
-              data['id'] = doc.id;
-              orders.add(OrderModel.fromJson(data));
+              final sanitizedData = _deepSanitizeMap(data);
+              sanitizedData['id'] = doc.id;
+              final order = OrderModel.fromJson(sanitizedData);
+
+              final isSentToKitchen = sanitizedData['sentToKitchen'] == true;
+              final isNotCompleted = order.orderStatus != OrderStatus.completed;
+
+              if (isSentToKitchen && isNotCompleted) {
+                orders.add(order);
+              }
             } catch (e) {
               // Log parsing error but don't crash the whole stream
               debugPrint('Error parsing order document ${doc.id}: $e');
@@ -50,7 +58,42 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
 
   @override
   Future<void> updateOrderStatus(String orderId, OrderStatus status) async {
-    await firestore.collection(OrderDbConstants.orders).doc(orderId).update({
+    final docRef = firestore.collection(OrderDbConstants.orders).doc(orderId);
+
+    if (status == OrderStatus.ready ||
+        status == OrderStatus.served ||
+        status == OrderStatus.completed) {
+      final doc = await docRef.get();
+      if (doc.exists) {
+        final sanitizedData = _deepSanitizeMap(doc.data()!);
+        sanitizedData['id'] = doc.id;
+        final order = OrderModel.fromJson(sanitizedData);
+
+        final updatedMenu = order.orderedMenu.map((item) {
+          return CartItemModel(
+            foodId: item.foodId,
+            name: item.name,
+            imageUrl: item.imageUrl,
+            quantity: item.quantity,
+            price: item.price,
+            selectedPortion: item.selectedPortion,
+            selectedAddOns: item.selectedAddOns,
+            specialInstructions: item.specialInstructions,
+            isSentToKitchen: item.isSentToKitchen,
+            isPrepared: true,
+          );
+        }).toList();
+
+        await docRef.update({
+          'orderStatus': status.name,
+          'orderedMenu': updatedMenu.map((e) => e.toJson()).toList(),
+          'updatedAt': FieldValue.serverTimestamp(),
+        });
+        return;
+      }
+    }
+
+    await docRef.update({
       'orderStatus': status.name,
       'updatedAt': FieldValue.serverTimestamp(),
     });
@@ -67,7 +110,9 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
 
     if (doc.exists) {
       try {
-        final order = OrderModel.fromJson({...doc.data()!, 'id': doc.id});
+        final sanitizedData = _deepSanitizeMap(doc.data()!);
+        sanitizedData['id'] = doc.id;
+        final order = OrderModel.fromJson(sanitizedData);
         final updatedMenu = List<CartItemModel>.from(order.orderedMenu);
 
         if (itemIndex >= 0 && itemIndex < updatedMenu.length) {
@@ -94,8 +139,28 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
         debugPrint(
           'Error updating item preparation status for order $orderId: $e',
         );
-        rethrow; // Rethrow to let the UI know it failed
+        rethrow;
       }
     }
+  }
+
+  Map<String, dynamic> _deepSanitizeMap(Map<dynamic, dynamic> map) {
+    final sanitized = <String, dynamic>{};
+    map.forEach((key, value) {
+      final stringKey = key.toString();
+      if (value is Map) {
+        sanitized[stringKey] = _deepSanitizeMap(value);
+      } else if (value is List) {
+        sanitized[stringKey] = value.map((item) {
+          if (item is Map) {
+            return _deepSanitizeMap(item);
+          }
+          return item;
+        }).toList();
+      } else {
+        sanitized[stringKey] = value;
+      }
+    });
+    return sanitized;
   }
 }

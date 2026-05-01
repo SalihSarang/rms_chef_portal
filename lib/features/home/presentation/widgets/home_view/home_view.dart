@@ -4,14 +4,15 @@ import 'package:chef_portal/features/home/presentation/bloc/kds_bloc/kds_state.d
 import 'package:rms_shared_package/models/staff_model/staff_model.dart';
 import 'package:rms_shared_package/enums/enums.dart';
 
-import 'home_app_bar.dart';
-import 'kds_empty_state.dart';
-import 'kds_order_grid.dart';
+import 'components/home_app_bar/home_app_bar.dart';
+import 'components/kds_empty_state.dart';
+import '../kds_order_grid/kds_order_grid.dart';
+import '../kds_consolidated_view/kds_consolidated_view.dart';
 
 /// The main content view for the KDS Home screen.
 ///
 /// Handles filtering orders based on the [KdsState.showCompleted] flag
-/// and displays either the [KdsOrderGrid] or a [KdsEmptyState].
+/// and displays either the [KdsOrderGrid], [KdsConsolidatedItemView], or a [KdsEmptyState].
 class HomeView extends StatelessWidget {
   final KdsState state;
   final StaffModel staff;
@@ -31,12 +32,19 @@ class HomeView extends StatelessWidget {
       }
     }).toList();
 
+    Widget content;
+    if (filteredOrders.isEmpty) {
+      content = KdsEmptyState(showCompleted: state.showCompleted);
+    } else if (state.viewMode == KdsViewMode.consolidated) {
+      content = KdsConsolidatedItemView(orders: filteredOrders);
+    } else {
+      content = KdsOrderGrid(orders: filteredOrders);
+    }
+
     return Scaffold(
       backgroundColor: NeutralColors.background,
       appBar: HomeAppBar(state: state, staff: staff),
-      body: filteredOrders.isEmpty
-          ? KdsEmptyState(showCompleted: state.showCompleted)
-          : KdsOrderGrid(orders: filteredOrders),
+      body: content,
     );
   }
 }

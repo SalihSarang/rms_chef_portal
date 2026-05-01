@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:chef_portal/features/home/presentation/widgets/kds_order_card/components/kds_order_timer.dart';
+import 'package:chef_portal/features/home/presentation/widgets/kds_order_card/components/header/kds_order_timer.dart';
 import 'package:rms_shared_package/enums/enums.dart';
-import 'package:chef_portal/features/home/presentation/widgets/kds_order_card/components/kds_order_status_info.dart';
+import 'package:chef_portal/features/home/presentation/widgets/kds_order_card/components/header/kds_order_status_info.dart';
 
 /// The header section of the KDS order card.
 ///
@@ -32,6 +32,7 @@ class KdsOrderCardHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         KdsOrderStatusInfo(
           statusColor: statusColor,
@@ -42,6 +43,7 @@ class KdsOrderCardHeader extends StatelessWidget {
           createdAt: createdAt,
           updatedAt: updatedAt,
           status: status,
+          statusColor: statusColor,
         ),
       ],
     );

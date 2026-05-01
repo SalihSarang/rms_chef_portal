@@ -65,6 +65,43 @@ class OrderTypeTabs extends StatelessWidget {
   }
 }
 
+/// The tab selector for switching between Grid View and Consolidated Item View.
+class ViewModeTabs extends StatelessWidget {
+  final KdsState state;
+
+  const ViewModeTabs({super.key, required this.state});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 40,
+      margin: const EdgeInsets.only(right: 20),
+      decoration: BoxDecoration(
+        color: NeutralColors.surface,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        children: [
+          KdsTabButton(
+            text: 'ORDER VIEW',
+            isActive: state.viewMode == KdsViewMode.grid,
+            onTap: () => context.read<KdsBloc>().add(
+              const ToggleKdsViewModeEvent(viewMode: KdsViewMode.grid),
+            ),
+          ),
+          KdsTabButton(
+            text: 'ITEM VIEW',
+            isActive: state.viewMode == KdsViewMode.consolidated,
+            onTap: () => context.read<KdsBloc>().add(
+              const ToggleKdsViewModeEvent(viewMode: KdsViewMode.consolidated),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 /// The action buttons on the right side of the KDS AppBar.
 class AppBarActions extends StatelessWidget {
   final VoidCallback? onProfileTap;

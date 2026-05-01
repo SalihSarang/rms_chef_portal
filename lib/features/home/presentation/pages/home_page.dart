@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:chef_portal/features/home/presentation/bloc/kds_bloc/kds_bloc.dart';
 import 'package:chef_portal/features/home/presentation/bloc/kds_bloc/kds_state.dart';
 import 'package:rms_shared_package/models/staff_model/staff_model.dart';
-import '../widgets/home_page_components/home_view.dart';
+import '../widgets/home_view/home_view.dart';
 
 /// The main landing page for the Kitchen Display System (KDS).
 ///

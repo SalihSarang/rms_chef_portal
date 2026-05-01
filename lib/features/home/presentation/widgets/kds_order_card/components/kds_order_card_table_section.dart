@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rms_design_system/rms_design_system.dart';
 
-/// Manages the display of the table identification and its vertical spacing.
+/// Displays the table identification with a micro-label and a table icon.
 class KdsOrderCardTableSection extends StatelessWidget {
   final String tableNumber;
 
@@ -12,13 +12,34 @@ class KdsOrderCardTableSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Table $tableNumber',
-          style: const TextStyle(
-            color: TextColors.primary,
-            fontSize: 20,
+        const Text(
+          'TABLE',
+          style: TextStyle(
+            color: NeutralColors.icon,
+            fontSize: 10,
             fontWeight: FontWeight.bold,
+            letterSpacing: 1.2,
           ),
+        ),
+        const SizedBox(height: 2),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'Table $tableNumber',
+              style: const TextStyle(
+                color: TextColors.primary,
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(width: 8),
+            const Icon(
+              Icons.table_restaurant,
+              color: NeutralColors.icon,
+              size: 18,
+            ),
+          ],
         ),
         const SizedBox(height: 16),
       ],

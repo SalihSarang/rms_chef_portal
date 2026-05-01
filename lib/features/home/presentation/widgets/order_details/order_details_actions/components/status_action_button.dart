@@ -29,6 +29,9 @@ class StatusActionButton extends StatelessWidget {
   /// Callback when the status transition is confirmed.
   final Function(OrderStatus) onConfirm;
 
+  /// Whether the action is enabled.
+  final bool enabled;
+
   const StatusActionButton({
     super.key,
     required this.label,
@@ -38,6 +41,7 @@ class StatusActionButton extends StatelessWidget {
     required this.dialogType,
     this.borderColor,
     required this.onConfirm,
+    this.enabled = true,
   });
 
   @override
@@ -65,7 +69,7 @@ class StatusActionButton extends StatelessWidget {
             borderColor ?? (isPrimary ? PrimaryColors.defaultColor : null),
         icon: isPrimary ? const Icon(Icons.play_circle_filled, size: 20) : null,
         height: 56,
-        onPressed: () => _showConfirmation(context),
+        onPressed: enabled ? () => _showConfirmation(context) : null,
       ),
     );
   }

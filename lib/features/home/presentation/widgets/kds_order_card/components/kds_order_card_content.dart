@@ -4,7 +4,7 @@ import 'package:rms_shared_package/models/order_model/order_model.dart';
 import 'kds_order_card_body.dart';
 import 'kds_order_card_action.dart';
 
-/// The visual content of the KDS order card, including accent line and actions.
+/// The visual content of the KDS order card, including body and action button.
 class KdsOrderCardContent extends StatelessWidget {
   final OrderModel order;
   final Color statusColor;
@@ -19,22 +19,15 @@ class KdsOrderCardContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(16),
-      child: Column(
-        children: [
-          // Top Accent Line
-          Container(height: 4, width: double.infinity, color: statusColor),
-
-          KdsOrderCardBody(order: order, statusColor: statusColor),
-
-          KdsOrderCardAction(
-            orderStatus: order.orderStatus,
-            statusColor: statusColor,
-            onStatusChange: onStatusChange,
-          ),
-        ],
-      ),
+    return Column(
+      children: [
+        KdsOrderCardBody(order: order, statusColor: statusColor),
+        KdsOrderCardAction(
+          order: order,
+          statusColor: statusColor,
+          onStatusChange: onStatusChange,
+        ),
+      ],
     );
   }
 }
