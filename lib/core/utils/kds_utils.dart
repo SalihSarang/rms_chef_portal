@@ -27,6 +27,9 @@ class KdsUtils {
       case OrderStatus.served:
       case OrderStatus.completed:
         return StatusColors.ready;
+      case OrderStatus.cancelled:
+        return StatusColors
+            .pending; // Use a neutral color for cancelled in KDS or similar
     }
   }
 
@@ -42,6 +45,8 @@ class KdsUtils {
         return 'SERVED';
       case OrderStatus.completed:
         return 'COMPLETED';
+      case OrderStatus.cancelled:
+        return 'CANCELLED';
     }
   }
 
@@ -66,6 +71,8 @@ class KdsUtils {
         return 'SERVED';
       case OrderStatus.completed:
         return 'COMPLETED';
+      case OrderStatus.cancelled:
+        return 'CANCELLED';
     }
   }
 
@@ -79,6 +86,8 @@ class KdsUtils {
       case OrderStatus.served:
       case OrderStatus.completed:
         return Icons.check;
+      case OrderStatus.cancelled:
+        return Icons.cancel;
     }
   }
 

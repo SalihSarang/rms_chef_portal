@@ -6,6 +6,7 @@ import '../profile_stats/profile_stats_section.dart';
 import '../profile_details/profile_details_section.dart';
 import '../profile_shift/profile_shift_section.dart';
 import 'shift_history_section.dart';
+import 'daily_earnings_section.dart';
 import 'profile_sidebar_header.dart';
 
 /// The main content view for the profile dashboard.
@@ -59,6 +60,8 @@ class ProfileDashboardView extends StatelessWidget {
                 ProfileShiftSection(staff: staff),
                 const SizedBox(height: 40),
                 const ShiftHistorySection(),
+                const SizedBox(height: 40),
+                DailyEarningsSection(staff: staff),
               ],
             ),
           ),
