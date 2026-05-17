@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rms_design_system/app_colors/neutral_colors.dart';
+import 'package:chef_portal/core/widgets/custom_text.dart';
 
 class NeedHelpSection extends StatelessWidget {
   const NeedHelpSection({super.key});
@@ -12,10 +13,7 @@ class NeedHelpSection extends StatelessWidget {
         children: [
           Icon(Icons.help_outline, color: NeutralColors.icon, size: 14),
           SizedBox(width: 5),
-          Text(
-            'Need Help?',
-            style: TextStyle(color: NeutralColors.icon, fontSize: 13),
-          ),
+          CustomText('Need Help?', color: NeutralColors.icon, fontSize: 13),
         ],
       ),
     );

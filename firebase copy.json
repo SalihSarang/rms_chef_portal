@@ -1,0 +1,57 @@
+{
+    "hosting": {
+        "target": "kds",
+        "public": "build/web",
+        "ignore": [
+            "firebase.json",
+            "**/.*",
+            "**/node_modules/**"
+        ],
+        "rewrites": [
+            {
+                "source": "**",
+                "destination": "/index.html"
+            }
+        ],
+        "headers": [
+            {
+                "source": "/**/index.html",
+                "headers": [
+                    {
+                        "key": "Cache-Control",
+                        "value": "no-cache, no-store, must-revalidate"
+                    }
+                ]
+            },
+            {
+                "source": "/**/service-worker.js",
+                "headers": [
+                    {
+                        "key": "Cache-Control",
+                        "value": "no-cache, no-store, must-revalidate"
+                    }
+                ]
+            }
+        ]
+    },
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "rms-project-b8903",
+                    "appId": "1:647362299120:android:aba7bf06d8c24e4974ae35",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "rms-project-b8903",
+                    "configurations": {
+                        "android": "1:647362299120:android:aba7bf06d8c24e4974ae35",
+                        "web": "1:647362299120:web:1599bae22ccb2b3474ae35"
+                    }
+                }
+            }
+        }
+    }
+}

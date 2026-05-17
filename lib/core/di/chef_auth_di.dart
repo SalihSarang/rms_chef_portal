@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:chef_portal/core/di/injector.dart';
+import 'package:get_it/get_it.dart';
 import 'package:chef_portal/features/auth/data/datasources/chef_auth_remote_datasource.dart';
 import 'package:chef_portal/features/auth/data/repositories/chef_auth_repo_impl.dart';
 import 'package:chef_portal/features/auth/domain/repositories/auth_repository.dart';
@@ -8,6 +8,8 @@ import 'package:chef_portal/features/auth/domain/usecases/check_auth_status.dart
 import 'package:chef_portal/features/auth/domain/usecases/sign_in_chef.dart';
 import 'package:chef_portal/features/auth/domain/usecases/sign_out_chef.dart';
 import 'package:chef_portal/features/auth/presentation/bloc/auth_bloc.dart';
+
+final getIt = GetIt.instance;
 
 //Chef Auth DI
 void chefAuthDI() {

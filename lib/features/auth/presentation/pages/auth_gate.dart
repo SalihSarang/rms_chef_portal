@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:chef_portal/core/di/injector.dart';
-import 'package:chef_portal/features/home/presentation/bloc/shift_bloc.dart';
+import 'package:chef_portal/features/profile/presentation/bloc/shift_bloc/shift_bloc.dart';
+import 'package:chef_portal/features/profile/presentation/bloc/shift_bloc/shift_event.dart';
 import 'package:chef_portal/features/home/presentation/pages/home_page.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_event.dart';
@@ -24,24 +24,30 @@ class _AuthGateState extends State<AuthGate> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthState>(
-      builder: (context, state) {
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
         if (state is Authenticated) {
-          return BlocProvider<ShiftBloc>(
-            create: (context) => getIt<ShiftBloc>(),
-            child: HomePage(staff: state.user),
-          );
+          context.read<ShiftBloc>().add(LoadShiftEvent(state.user));
+        } else {
+          context.read<ShiftBloc>().add(ClearShiftEvent());
         }
-
-        if (state is AuthInitial ||
-            (state is AuthLoading && state.isInitialCheck)) {
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
-          );
-        }
-
-        return const LoginPage();
       },
+      child: BlocBuilder<AuthBloc, AuthState>(
+        builder: (context, state) {
+          if (state is Authenticated) {
+            return HomePage(staff: state.user);
+          }
+
+          if (state is AuthInitial ||
+              (state is AuthLoading && state.isInitialCheck)) {
+            return const Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            );
+          }
+
+          return const LoginPage();
+        },
+      ),
     );
   }
 }

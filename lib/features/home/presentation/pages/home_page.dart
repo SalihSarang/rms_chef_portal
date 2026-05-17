@@ -1,39 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rms_design_system/app_colors/neutral_colors.dart';
-import 'package:chef_portal/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:chef_portal/features/auth/presentation/bloc/auth_event.dart';
+import 'package:chef_portal/features/home/presentation/bloc/kds_bloc/kds_bloc.dart';
+import 'package:chef_portal/features/home/presentation/bloc/kds_bloc/kds_state.dart';
 import 'package:rms_shared_package/models/staff_model/staff_model.dart';
-import 'package:chef_portal/features/home/presentation/widgets/home_welcome_section.dart';
-import 'package:chef_portal/features/home/presentation/widgets/shift_toggle_button.dart';
+import '../widgets/home_view/home_view.dart';
 
+/// The main landing page for the Kitchen Display System (KDS).
+///
+/// This page displays a grid of incoming or completed orders and provides
+/// access to the user profile and shift management.
 class HomePage extends StatelessWidget {
+  /// The current logged-in staff member.
   final StaffModel staff;
 
   const HomePage({super.key, required this.staff});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: NeutralColors.background,
-      appBar: AppBar(
-        title: const Text(
-          'Chef Dashboard',
-          style: TextStyle(color: NeutralColors.white),
-        ),
-        backgroundColor: NeutralColors.glassBackground,
-        actions: [
-          ShiftToggleButton(staffId: staff.id),
-          const SizedBox(width: 8),
-          IconButton(
-            icon: const Icon(Icons.logout, color: Colors.grey),
-            tooltip: 'Logout',
-            onPressed: () => context.read<AuthBloc>().add(SignOutEvent()),
-          ),
-          const SizedBox(width: 8),
-        ],
-      ),
-      body: HomeWelcomeSection(userName: staff.name),
+    return BlocBuilder<KdsBloc, KdsState>(
+      builder: (context, state) => HomeView(state: state, staff: staff),
     );
   }
 }

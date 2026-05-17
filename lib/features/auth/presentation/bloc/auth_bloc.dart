@@ -88,7 +88,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthError('Failed to sign in. Please try again.'));
       }
     } catch (e) {
-      emit(AuthError(e.toString()));
+      final message = e.toString().replaceFirst('Exception: ', '');
+      emit(AuthError(message));
     }
   }
 
@@ -101,7 +102,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await _signOutChef();
       emit(UnAuthenticated());
     } catch (e) {
-      emit(AuthError(e.toString()));
+      final message = e.toString().replaceFirst('Exception: ', '');
+      emit(AuthError(message));
     }
   }
 }
