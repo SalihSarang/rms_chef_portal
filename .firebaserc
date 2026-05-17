@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "rms-project-b8903"
+  },
+  "targets": {
+    "rms-project-b8903": {
+      "hosting": {
+        "kds": [
+          "rms-kds-portal"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

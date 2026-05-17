@@ -90,7 +90,7 @@ packages:
     source: hosted
     version: "1.0.8"
   equatable:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: equatable
       sha256: "3e0141505477fd8ad55d6eb4e7776d3fe8430be8e497ccb1521370c3f21a3e2b"
@@ -291,16 +291,20 @@ packages:
   rms_design_system:
     dependency: "direct main"
     description:
-      path: "../packages/rms_design_system_package"
-      relative: true
-    source: path
+      path: rms_design_system_package
+      ref: main
+      resolved-ref: b8a6b570b35632d4b9e5fd5906176a0296bacad3
+      url: "https://github.com/SalihSarang/rms_packages.git"
+    source: git
     version: "1.0.0+1"
   rms_shared_package:
     dependency: "direct main"
     description:
-      path: "../packages/rms_shared_package"
-      relative: true
-    source: path
+      path: rms_shared_package
+      ref: main
+      resolved-ref: b8a6b570b35632d4b9e5fd5906176a0296bacad3
+      url: "https://github.com/SalihSarang/rms_packages.git"
+    source: git
     version: "1.0.0+1"
   sky_engine:
     dependency: transitive
