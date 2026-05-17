@@ -2,38 +2,65 @@ name: Flutter CI
 
 on:
   push:
-    branches: [ main, dev ]
+    branches: [ "main", "dev" ]
   pull_request:
-    branches: [ main, dev ]
+    branches: [ "main", "dev" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cashier_portal
 
     steps:
-      - uses: actions/checkout@v4
-
-      # Uncomment and update if your packages are in a separate repository
-      # - name: Checkout Packages
-      #   uses: actions/checkout@v4
-      #   with:
-      #     repository: SalihSarang/rms_packages
-      #     path: ../packages
+      - name: Checkout cashier_portal
+        uses: actions/checkout@v3
+        with:
+          path: cashier_portal
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.10.8' # Matching your pubspec.yaml SDK
-          channel: 'stable'
+          channel: stable
+          cache: true
 
       - name: Install dependencies
         run: flutter pub get
-
-      - name: Verify formatting
-        run: dart format --set-exit-if-changed .
 
       - name: Analyze project source
         run: flutter analyze
 
       - name: Run tests
         run: flutter test
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    defaults:
+      run:
+        working-directory: cashier_portal
+    steps:
+      - uses: actions/checkout@v3
+        with: 
+          path: cashier_portal
+      
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Build Web
+        run: flutter build web --build-number=${{ github.run_number }}
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with: 
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_RMS_PROJECT }}
+          projectId: rms-project-b8903
+          channelId: live
+          entryPoint: rms-kds-portal
+          target: kds

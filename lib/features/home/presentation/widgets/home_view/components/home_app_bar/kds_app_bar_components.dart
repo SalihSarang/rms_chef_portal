@@ -14,15 +14,9 @@ class StationIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: StatusColors.preparing.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: const Icon(
-          Icons.grid_view_rounded,
-          color: StatusColors.preparing,
-        ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Image.asset('assets/images/logo.png', fit: BoxFit.cover),
       ),
     );
   }
