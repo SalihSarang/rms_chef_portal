@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'auth_header.dart';
 import 'login_email_field.dart';
 import 'login_password_field.dart';
-import 'forgot_password_button.dart';
 import 'sign_in_button.dart';
-import 'need_help_section.dart';
 
 /// The main content of the login form, organized as a single column of
 /// interactive components.
@@ -30,11 +28,11 @@ class LoginFormBody extends StatelessWidget {
         const SizedBox(height: 20),
         const LoginPasswordField(),
         const SizedBox(height: 5),
-        const ForgotPasswordButton(),
+        // const ForgotPasswordButton(),
         const SizedBox(height: 15),
         SignInButton(formKey: formKey),
         const SizedBox(height: 10),
-        const NeedHelpSection(),
+        // const NeedHelpSection(),
       ],
     );
   }
