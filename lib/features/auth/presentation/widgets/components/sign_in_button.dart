@@ -9,8 +9,13 @@ import 'package:chef_portal/features/auth/presentation/widgets/components/login_
 /// and showing a loading indicator during authentication.
 class SignInButton extends StatelessWidget {
   final GlobalKey<FormState> formKey;
+  final String? sessionCode;
 
-  const SignInButton({super.key, required this.formKey});
+  const SignInButton({
+    super.key,
+    required this.formKey,
+    this.sessionCode,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +29,11 @@ class SignInButton extends StatelessWidget {
         builder: (context, state) {
           final isLoading = state is AuthLoading && !state.isInitialCheck;
 
-          return LoginSubmitButton(isLoading: isLoading, formKey: formKey);
+          return LoginSubmitButton(
+            isLoading: isLoading,
+            formKey: formKey,
+            sessionCode: sessionCode,
+          );
         },
       ),
     );

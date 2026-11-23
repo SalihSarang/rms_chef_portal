@@ -1,10 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'package:rms_shared_package/constants/db_constants.dart';
-import 'package:rms_shared_package/enums/enums.dart';
-import 'package:rms_shared_package/models/order_model/order_model.dart';
-import 'package:rms_shared_package/models/order_model/ordered_menu_model.dart';
+import 'package:rms_shared_package/rms_shared_package.dart';
 
 abstract class HomeRemoteDataSource {
   /// Streams all orders from the 'orders' collection.
@@ -29,7 +25,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   @override
   Stream<List<OrderModel>> getOrders() {
     return firestore
-        .collection(OrderDbConstants.orders)
+        .rmsCollection(OrderDbConstants.orders)
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snapshot) {
@@ -58,7 +54,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
 
   @override
   Future<void> updateOrderStatus(String orderId, OrderStatus status) async {
-    final docRef = firestore.collection(OrderDbConstants.orders).doc(orderId);
+    final docRef = firestore.rmsCollection(OrderDbConstants.orders).doc(orderId);
 
     if (status == OrderStatus.ready ||
         status == OrderStatus.served ||
@@ -105,7 +101,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
     int itemIndex,
     bool isPrepared,
   ) async {
-    final docRef = firestore.collection(OrderDbConstants.orders).doc(orderId);
+    final docRef = firestore.rmsCollection(OrderDbConstants.orders).doc(orderId);
     final doc = await docRef.get();
 
     if (doc.exists) {

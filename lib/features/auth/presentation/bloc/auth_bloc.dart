@@ -20,6 +20,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
        super(AuthInitial()) {
     on<CheckAuthEvent>(_onCheckAuthEvent);
     on<SignInEvent>(_onSignInEvent);
+    on<DemoSignInEvent>(_onDemoSignInEvent);
     on<SignOutEvent>(_onSignOutEvent);
     on<LoginEmailChanged>(_onEmailChanged);
     on<LoginPasswordChanged>(_onPasswordChanged);
@@ -86,6 +87,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(Authenticated(user));
       } else {
         emit(AuthError('Failed to sign in. Please try again.'));
+      }
+    } catch (e) {
+      final message = e.toString().replaceFirst('Exception: ', '');
+      emit(AuthError(message));
+    }
+  }
+
+  Future<void> _onDemoSignInEvent(
+    DemoSignInEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(AuthLoading(isInitialCheck: false));
+    try {
+      final user = await _signInChef.demoSignIn(sessionCode: event.sessionCode);
+      if (user != null) {
+        emit(Authenticated(user));
+      } else {
+        emit(AuthError('Failed to sign in as demo chef. Please try again.'));
       }
     } catch (e) {
       final message = e.toString().replaceFirst('Exception: ', '');

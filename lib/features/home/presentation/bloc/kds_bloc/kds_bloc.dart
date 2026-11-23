@@ -10,6 +10,7 @@ class KdsBloc extends Bloc<KdsEvent, KdsState> {
 
   KdsBloc({required this.homeRepository}) : super(const KdsState()) {
     on<FetchKdsOrdersEvent>(_onFetchOrders);
+    on<ClearKdsOrdersEvent>(_onClearOrders);
     on<UpdateKdsOrderStatusEvent>(_onUpdateOrderStatus);
     on<ToggleKdsTabEvent>(_onToggleTab);
     on<ToggleKdsViewModeEvent>(_onToggleViewMode);
@@ -24,9 +25,26 @@ class KdsBloc extends Bloc<KdsEvent, KdsState> {
     emit(state.copyWith(status: KdsStatus.loading));
     await _ordersSubscription?.cancel();
 
-    _ordersSubscription = homeRepository.getOrders().listen((orders) {
-      add(OrdersUpdatedInternal(orders));
-    });
+    _ordersSubscription = homeRepository.getOrders().listen(
+      (orders) {
+        add(OrdersUpdatedInternal(orders));
+      },
+      onError: (error) {
+        emit(state.copyWith(
+          status: KdsStatus.error,
+          errorMessage: error.toString(),
+        ));
+      },
+    );
+  }
+
+  Future<void> _onClearOrders(
+    ClearKdsOrdersEvent event,
+    Emitter<KdsState> emit,
+  ) async {
+    await _ordersSubscription?.cancel();
+    _ordersSubscription = null;
+    emit(const KdsState());
   }
 
   void _onOrdersUpdated(OrdersUpdatedInternal event, Emitter<KdsState> emit) {

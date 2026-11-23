@@ -9,11 +9,13 @@ import 'package:chef_portal/core/widgets/custom_text.dart';
 class LoginSubmitButton extends StatelessWidget {
   final bool isLoading;
   final GlobalKey<FormState> formKey;
+  final String? sessionCode;
 
   const LoginSubmitButton({
     super.key,
     required this.isLoading,
     required this.formKey,
+    this.sessionCode,
   });
 
   @override
@@ -21,7 +23,11 @@ class LoginSubmitButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: isLoading
           ? null
-          : () => AuthHandlers.handleSignIn(context, formKey),
+          : () => AuthHandlers.handleSignIn(
+              context,
+              formKey,
+              sessionCode: sessionCode,
+            ),
       style: AuthButtonStyles.primaryButtonStyle,
       child: isLoading
           ? const ButtonLoadingIndicator()

@@ -9,4 +9,8 @@ class SignInChef {
   Future<StaffModel?> call(String email, String password) async {
     return await repository.signIn(email, password);
   }
+
+  Future<StaffModel?> demoSignIn({String? sessionCode}) async {
+    return await repository.signInAsDemoChef(sessionCode: sessionCode);
+  }
 }
