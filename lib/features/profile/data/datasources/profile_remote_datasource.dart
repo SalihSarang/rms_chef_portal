@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rms_shared_package/constants/db_constants.dart';
+import 'package:rms_shared_package/rms_shared_package.dart';
 
 abstract class ProfileRemoteDataSource {
   Future<void> updateLastActiveStatus(String uid, DateTime time);
@@ -15,7 +15,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   Future<void> updateLastActiveStatus(String uid, DateTime time) async {
     try {
       log('Attempting to update lastActive for user UID: $uid');
-      await firestore.collection(StaffDbConstants.staff).doc(uid).update({
+      await firestore.rmsCollection(StaffDbConstants.staff).doc(uid).update({
         'lastActive': time.millisecondsSinceEpoch,
       });
       log('Successfully updated lastActive to ${time.toIso8601String()}');

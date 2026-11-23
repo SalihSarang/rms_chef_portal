@@ -7,7 +7,9 @@ import 'package:chef_portal/features/auth/presentation/widgets/components/login_
 /// A specialized text field for entering the user's password during login,
 /// including visibility toggle functionality.
 class LoginPasswordField extends StatelessWidget {
-  const LoginPasswordField({super.key});
+  final TextEditingController? controller;
+
+  const LoginPasswordField({super.key, this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,7 @@ class LoginPasswordField extends StatelessWidget {
             ? state.isPasswordVisible
             : false;
 
-        return LoginPasswordInput(isVisible: isVisible);
+        return LoginPasswordInput(isVisible: isVisible, controller: controller);
       },
     );
   }

@@ -19,6 +19,11 @@ class ChefAuthRepoImpl implements AuthRepository {
   }
 
   @override
+  Future<StaffModel?> signInAsDemoChef({String? sessionCode}) async {
+    return await remoteDataSource.signInAsDemoChef(sessionCode: sessionCode);
+  }
+
+  @override
   Future<void> signOut() async {
     try {
       await remoteDataSource.signOut();

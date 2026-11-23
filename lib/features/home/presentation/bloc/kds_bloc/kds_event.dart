@@ -12,6 +12,8 @@ abstract class KdsEvent extends Equatable {
 
 class FetchKdsOrdersEvent extends KdsEvent {}
 
+class ClearKdsOrdersEvent extends KdsEvent {}
+
 class OrdersUpdatedInternal extends KdsEvent {
   final List<OrderModel> orders;
   const OrdersUpdatedInternal(this.orders);

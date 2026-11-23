@@ -1,18 +1,19 @@
 import 'package:chef_portal/core/di/injector.dart';
 import 'package:chef_portal/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:chef_portal/features/home/presentation/bloc/kds_bloc/kds_bloc.dart';
-import 'package:chef_portal/features/home/presentation/bloc/kds_bloc/kds_event.dart';
 import 'package:chef_portal/features/profile/presentation/bloc/shift_bloc/shift_bloc.dart';
 import 'package:chef_portal/features/auth/presentation/pages/auth_gate.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rms_design_system/theme/app_theme.dart';
+import 'package:rms_shared_package/rms_shared_package.dart';
 import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await DemoSessionManager.initialize();
   setupDI();
   runApp(const MyApp());
 }
@@ -26,9 +27,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<AuthBloc>(create: (context) => getIt<AuthBloc>()),
         BlocProvider<ShiftBloc>(create: (context) => getIt<ShiftBloc>()),
-        BlocProvider<KdsBloc>(
-          create: (context) => getIt<KdsBloc>()..add(FetchKdsOrdersEvent()),
-        ),
+        BlocProvider<KdsBloc>(create: (context) => getIt<KdsBloc>()),
       ],
       child: MaterialApp(
         title: 'Chef Portal',

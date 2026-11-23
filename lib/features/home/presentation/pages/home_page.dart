@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:chef_portal/features/home/presentation/bloc/kds_bloc/kds_bloc.dart';
+import 'package:chef_portal/features/home/presentation/bloc/kds_bloc/kds_event.dart';
 import 'package:chef_portal/features/home/presentation/bloc/kds_bloc/kds_state.dart';
 import 'package:rms_shared_package/models/staff_model/staff_model.dart';
 import '../widgets/home_view/home_view.dart';
@@ -9,16 +10,30 @@ import '../widgets/home_view/home_view.dart';
 ///
 /// This page displays a grid of incoming or completed orders and provides
 /// access to the user profile and shift management.
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   /// The current logged-in staff member.
   final StaffModel staff;
 
   const HomePage({super.key, required this.staff});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    final kdsBloc = context.read<KdsBloc>();
+    if (kdsBloc.state.status == KdsStatus.initial) {
+      kdsBloc.add(FetchKdsOrdersEvent());
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<KdsBloc, KdsState>(
-      builder: (context, state) => HomeView(state: state, staff: staff),
+      builder: (context, state) => HomeView(state: state, staff: widget.staff),
     );
   }
 }
