@@ -7,11 +7,14 @@ import 'package:chef_portal/features/auth/presentation/bloc/auth_event.dart';
 
 /// A specialized text field for entering the user's email during login.
 class LoginEmailField extends StatelessWidget {
-  const LoginEmailField({super.key});
+  final TextEditingController? controller;
+
+  const LoginEmailField({super.key, this.controller});
 
   @override
   Widget build(BuildContext context) {
     return AuthTextField(
+      controller: controller,
       label: 'Email Address',
       hintText: 'name@company.com',
       validator: AppValidators.validateEmail,

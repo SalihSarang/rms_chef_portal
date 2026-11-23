@@ -1,12 +1,11 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:rms_shared_package/constants/db_constants.dart';
-import 'package:rms_shared_package/models/staff_model/staff_model.dart';
-import 'package:rms_shared_package/enums/enums.dart';
+import 'package:rms_shared_package/rms_shared_package.dart';
 
 abstract class ChefAuthRemoteDataSource {
   Future<StaffModel?> signIn(String email, String password);
+  Future<StaffModel?> signInAsDemoChef({String? sessionCode});
   Future<void> signOut();
   Future<StaffModel?> getCurrentChef();
 }
@@ -21,13 +20,18 @@ class ChefAuthRemoteDataSourceImpl implements ChefAuthRemoteDataSource {
   Future<StaffModel?> signIn(String email, String password) async {
     try {
       log('Attempting to sign in chef with email: $email');
+
+      if (DemoConfig.isDemoEmail(email)) {
+        return await signInAsDemoChef(sessionCode: DemoSessionManager.activeSessionId);
+      }
+
       await auth.signInWithEmailAndPassword(email: email, password: password);
 
       final user = auth.currentUser;
       if (user == null) throw Exception('Authentication failed.');
 
       final docSnapshot = await firestore
-          .collection(StaffDbConstants.staff)
+          .rmsCollection(StaffDbConstants.staff)
           .doc(user.uid)
           .get();
 
@@ -66,6 +70,27 @@ class ChefAuthRemoteDataSourceImpl implements ChefAuthRemoteDataSource {
     }
   }
 
+  @override
+  Future<StaffModel?> signInAsDemoChef({String? sessionCode}) async {
+    try {
+      log('Signing in as Demo Chef (session: $sessionCode)');
+      await DemoAuthBootstrapService.signInOrBootstrapStaffDemo(
+        DemoConfig.chef,
+        sessionCode: sessionCode,
+        auth: auth,
+        firestore: firestore,
+      );
+      final chef = await getCurrentChef();
+      if (chef == null) {
+        throw Exception('Failed to synchronize demo chef profile.');
+      }
+      return chef;
+    } catch (e) {
+      log('Demo Chef sign-in error: $e');
+      rethrow;
+    }
+  }
+
   String _mapFirebaseAuthError(String code) {
     switch (code) {
       case 'user-not-found':
@@ -88,6 +113,7 @@ class ChefAuthRemoteDataSourceImpl implements ChefAuthRemoteDataSource {
   @override
   Future<void> signOut() async {
     log('Signing out current chef');
+    await DemoSessionManager.clearSession();
     await auth.signOut();
   }
 
@@ -101,7 +127,7 @@ class ChefAuthRemoteDataSourceImpl implements ChefAuthRemoteDataSource {
     }
     log('Fetching details for user UID: ${user.uid}');
     final docSnapshot = await firestore
-        .collection(StaffDbConstants.staff)
+        .rmsCollection(StaffDbConstants.staff)
         .doc(user.uid)
         .get();
 

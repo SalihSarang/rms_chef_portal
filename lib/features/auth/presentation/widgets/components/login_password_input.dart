@@ -10,12 +10,18 @@ import 'package:chef_portal/features/auth/presentation/bloc/auth_event.dart';
 /// toggle UI and communication with the [AuthBloc].
 class LoginPasswordInput extends StatelessWidget {
   final bool isVisible;
+  final TextEditingController? controller;
 
-  const LoginPasswordInput({super.key, required this.isVisible});
+  const LoginPasswordInput({
+    super.key,
+    required this.isVisible,
+    this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
     return AuthTextField(
+      controller: controller,
       label: 'Password',
       hintText: 'Enter your password',
       obscureText: !isVisible,

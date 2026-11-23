@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rms_design_system/rms_design_system.dart';
 import 'package:chef_portal/features/profile/presentation/bloc/shift_bloc/shift_bloc.dart';
 import 'package:chef_portal/features/profile/presentation/bloc/shift_bloc/shift_event.dart';
+import 'package:chef_portal/features/home/presentation/bloc/kds_bloc/kds_bloc.dart';
+import 'package:chef_portal/features/home/presentation/bloc/kds_bloc/kds_event.dart';
 import 'package:chef_portal/features/home/presentation/pages/home_page.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_event.dart';
@@ -28,14 +31,21 @@ class _AuthGateState extends State<AuthGate> {
       listener: (context, state) {
         if (state is Authenticated) {
           context.read<ShiftBloc>().add(LoadShiftEvent(state.user));
+          context.read<KdsBloc>().add(FetchKdsOrdersEvent());
         } else {
           context.read<ShiftBloc>().add(ClearShiftEvent());
+          context.read<KdsBloc>().add(ClearKdsOrdersEvent());
         }
       },
       child: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
           if (state is Authenticated) {
-            return HomePage(staff: state.user);
+            return RmsDemoBannerWrapper(
+              onExit: () {
+                context.read<AuthBloc>().add(SignOutEvent());
+              },
+              child: HomePage(staff: state.user),
+            );
           }
 
           if (state is AuthInitial ||
